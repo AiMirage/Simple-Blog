@@ -13,4 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('posts' , 'PostsController');
+//Route::resource('posts', 'PostsController');
+//Route::resource('users', 'UsersController');
+
+Route::get('/posts', 'BlogController@showPosts');
+Route::get('/posts/{id}', 'BlogController@getPost');

@@ -2,30 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
-use App\Services\CommentsService;
+use App\User;
 use Illuminate\Http\Request;
 
-class CommentsController extends Controller
+class UsersController extends Controller
 {
-
-    protected $commentsService;
-
-    public function __construct(CommentsService $service)
-    {
-        $this->commentsService = $service;
-    }
-
     /**
-     * Gets all comments on a given post
+     * Display a listing of the resource.
      *
-     * @param $postId integer
-     * @return Comment
+     * @return \Illuminate\Http\Response
      */
-    public function index($postId)
+    public function index()
     {
-        $postComments = $this->commentsService->getComments($postId);
-        return $postComments;
+        return response()->json(User::all());
     }
 
     /**
