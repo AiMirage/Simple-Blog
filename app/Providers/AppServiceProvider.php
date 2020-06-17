@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\DataHandlerService;
 use Illuminate\Support\ServiceProvider;
 use App\Services\PostsService;
 use App\Services\CommentsService;
@@ -21,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(CommentsService::class, function ($app) {
             return new CommentsService();
+        });
+
+        $this->app->bind(DataHandlerService::class, function ($app) {
+            return new DataHandlerService();
         });
     }
 

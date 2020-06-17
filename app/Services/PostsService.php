@@ -17,11 +17,11 @@ class PostsService
 
     public function getPosts()
     {
-        return Post::all();
+        return Post::with(['user', 'comments'])->get();
     }
 
     public function getPost($id)
     {
-        return Post::find($id);
+        return Post::with(['user', 'comments'])->where('id', $id)->get();
     }
 }

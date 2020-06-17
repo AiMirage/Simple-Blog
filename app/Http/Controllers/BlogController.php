@@ -2,41 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBlogPost;
 use Illuminate\Http\Request;
-use App\User;
 use App\Services\CommentsService;
 use App\Services\PostsService;
+use App\Services\DataHandlerService;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class BlogController extends Controller
 {
     protected $postsService;
     protected $commentsService;
+    protected $dataHandler;
 
-    public function __construct(PostsService $ps, CommentsService $cs)
+    public function __construct(PostsService $ps, CommentsService $cs, DataHandlerService $dh)
     {
         $this->postsService = $ps;
         $this->commentsService = $cs;
+        $this->dataHandler = $dh;
+
+        $this->middleware('auth:api', ['only' => ['store', 'update', 'delete']]);
     }
 
-    public function getPost($id)
+    public function index()
+    {
+        $posts = $this->postsService->getPosts();
+        $data = $this->dataHandler->handlePosts($posts);
+
+        return response($data);
+    }
+
+    public function show($id)
     {
         $post = $this->postsService->getPost($id);
-        $commentsData = $this->commentsService->getComments($id);
-        $user = $post->user;
+        $data = $this->dataHandler->handlePosts($post);
 
-        $comments = [];
+        return response($data);
+    }
 
-        foreach ($commentsData as $comment) {
-            $comments[] = [
-                'text' => $comment->text,
-                'by' => $comment->by->name
-            ];
-        }
+    public function store(Request $request)
+    {
+        // post_content
+        $postContent = $request->input('content');
+        $postAuthor = $request->input('user_id');
+        // post_author
 
-        return response()->json([
-            'content' => $post->content,
-            'author' => $user->name,
-            'comments' => $comments,
-        ]);
+        return response()->json($postAuthor);
+    }
+
+    public function update(Request $request)
+    {
+
+    }
+
+    public function destroy()
+    {
+
+    }
+
+    public function create()
+    {
+
+    }
+
+    public function edit()
+    {
+
     }
 }

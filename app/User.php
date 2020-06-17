@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Psy\Util\Str;
 
 class User extends Authenticatable
 {
@@ -36,6 +37,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function save(array $options = [])
+    {
+        if (empty($this->api_token)) {
+            $this->api_token = \Illuminate\Support\Str::random(60);
+        }
+        return parent::save($options);
+    }
 
     public function posts()
     {
