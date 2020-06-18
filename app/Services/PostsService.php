@@ -8,7 +8,9 @@
 
 namespace App\Services;
 
+use App\Http\Requests\StoreBlogPost;
 use App\Models\Post;
+use Illuminate\Http\Request;
 
 
 class PostsService
@@ -28,5 +30,18 @@ class PostsService
     public function getPostOnly($id)
     {
         return Post::find($id);
+    }
+
+    public function createPost($content, $user_id)
+    {
+        $post = new Post();
+        $post->content = $content;
+        $post->user_id = $user_id;
+
+        // TODO : check if successful either throw exception
+
+        $post->save();
+
+        return $this->getPost($post->id);
     }
 }

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/posts', 'BlogController@showPosts');
 //Route::get('/posts/{id}', 'BlogController@showPost');
 
-Route::resource('posts', 'BlogController');
+//Route::resource('posts', 'BlogController');
 
 //Route::get('/test', function () {
 //    return \Illuminate\Support\Str::random(60);

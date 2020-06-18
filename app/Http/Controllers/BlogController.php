@@ -41,18 +41,23 @@ class BlogController extends Controller
         return response($data);
     }
 
-    public function store(Request $request)
+    public function store(StoreBlogPost $request)
     {
-        // post_content
         $postContent = $request->input('content');
-        $postAuthor = $request->input('user_id');
-        // post_author
 
-        return response()->json($postAuthor);
+        // TODO : get user id from session not request
+        $user_id = $request->input('user_id');
+
+        $post = $this->postsService->createPost($postContent, $user_id);
+        $post = $this->dataHandler->handlePosts($post);
+
+        return response()->json($post, 200);
     }
 
     public function update(StoreBlogPost $request, $id)
     {
+        // TODO : check if post exist
+
         // TODO : get user id from session not request
         $user_id = $request->input('user_id');
 
