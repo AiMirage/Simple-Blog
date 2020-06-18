@@ -24,4 +24,9 @@ class PostsService
     {
         return Post::with(['user', 'comments'])->where('id', $id)->get();
     }
+
+    public function getPostOnly($id)
+    {
+        return Post::find($id);
+    }
 }

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBlogPost;
+use App\User;
 use Illuminate\Http\Request;
 use App\Services\CommentsService;
 use App\Services\PostsService;
 use App\Services\DataHandlerService;
-use Symfony\Component\VarDumper\Cloner\Data;
+use Illuminate\Support\Facades\Gate;
 
 class BlogController extends Controller
 {
@@ -50,9 +51,20 @@ class BlogController extends Controller
         return response()->json($postAuthor);
     }
 
-    public function update(Request $request)
+    public function update(StoreBlogPost $request, $id)
     {
+        // TODO : get user id from session not request
+        $user_id = $request->input('user_id');
 
+        $post = $this->postsService->getPostOnly($id);
+        $user = User::find($user_id);
+
+        if (Gate::forUser($user)->allows('update-post', $post)) {
+            $post->content = $request->input('content');
+            $post->save();
+            return response()->json($post, 202);
+        }
+        return response()->json(["message" => "Action Unauthorized"], 401);
     }
 
     public function destroy()
