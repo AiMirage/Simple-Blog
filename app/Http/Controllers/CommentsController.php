@@ -19,12 +19,12 @@ class CommentsController extends Controller
     /**
      * Gets all comments on a given post
      *
-     * @param $postId integer
+     * @param $post_id integer
      * @return Comment
      */
-    public function index($postId)
+    public function index($post_id)
     {
-        $postComments = $this->commentsService->getComments($postId);
+        $postComments = $this->commentsService->getComments($post_id);
         return $postComments;
     }
 
@@ -53,11 +53,14 @@ class CommentsController extends Controller
      * Display the specified resource.
      *
      * @param  int $id
+     * @param   int $post_id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($post_id, $id)
     {
-        //
+        $comment = $this->commentsService->getComment($post_id, $id);
+
+        return $comment;
     }
 
     /**

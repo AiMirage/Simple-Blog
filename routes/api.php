@@ -20,4 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('posts', 'BlogController');
 
-Route::resource('{post}/comment', 'CommentsController');
+Route::prefix('{post}')->group(function () {
+    Route::get('/comments', 'CommentsController@index');
+    Route::resource('comment', 'CommentsController')->except('index', 'create', 'edit');
+});

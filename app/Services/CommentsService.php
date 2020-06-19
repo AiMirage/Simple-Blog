@@ -13,9 +13,19 @@ use App\Models\Comment;
 
 class CommentsService
 {
-    public function getComments($postId)
+    public function getComments($post_id)
     {
-        $comments = Comment::where('post_id', $postId)->get();
+        $comments = Comment::where('post_id', $post_id)->get();
         return $comments;
+    }
+
+    public function getComment($post_id, $id)
+    {
+        $comment = Comment::where([
+            ['post_id' , $post_id],
+            ['id' , $id]
+        ])->get();
+
+        return $comment;
     }
 }
