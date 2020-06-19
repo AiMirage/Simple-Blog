@@ -44,4 +44,10 @@ class PostsService
 
         return $this->getPost($post->id);
     }
+
+    public function deletePost($id)
+    {
+        // TODO : delete comments too
+        return Post::destroy($id);
+    }
 }
